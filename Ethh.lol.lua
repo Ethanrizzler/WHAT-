@@ -8,7 +8,7 @@ local Window = Library:CreateWindow({
     TabPadding = 8,
     MenuFadeTime = 0.2,
 })
-
+-- Ethan Daddy
 
     Tabs = {
     Main = Window:AddTab('Main'),
