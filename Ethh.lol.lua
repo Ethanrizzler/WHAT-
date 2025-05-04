@@ -129,7 +129,6 @@ LeftGroupBox = Tabs.Main:AddLeftGroupbox('Aimlock')
             previewHighlight:Destroy()
         end
     
-        -- Create a new preview highlight for the closest player
         if player and player.Character then
             previewHighlight = Instance.new("Highlight")
             previewHighlight.Parent = player.Character
@@ -138,22 +137,18 @@ LeftGroupBox = Tabs.Main:AddLeftGroupbox('Aimlock')
         end
     end
     
-    -- Function to add a red highlight to the locked player
     local function AddLockedHighlight(player)
-        if not highlightsEnabled then return end -- Skip if highlights are disabled
+        if not highlightsEnabled then return end 
     
-        -- If locked highlight already exists for this player, return early
         if lockedHighlight and lockedHighlight.Parent == player.Character then
             lockedHighlight.FillColor = lockedHighlightColor
             return
         end
     
-        -- Destroy previous locked highlight if it exists
         if lockedHighlight then
             lockedHighlight:Destroy()
         end
     
-        -- Create a new locked highlight for the locked player
         if player and player.Character then
             lockedHighlight = Instance.new("Highlight")
             lockedHighlight.Parent = player.Character
@@ -166,13 +161,12 @@ LeftGroupBox = Tabs.Main:AddLeftGroupbox('Aimlock')
     local function LockCursorToHead()
         targetHead, targetPlayer = FindClosestPlayerHead()
         if targetHead then
-            AddLockedHighlight(targetPlayer)  -- Add highlight to locked player
-            if previewHighlight then previewHighlight:Destroy() end  -- Destroy preview highlight if it exists
+            AddLockedHighlight(targetPlayer) 
+            if previewHighlight then previewHighlight:Destroy() end  
             UserInputService.MouseIconEnabled = false
         end
     end
     
-    -- Unlock the cursor
     local function UnlockCursor()
         UserInputService.MouseIconEnabled = true
         targetHead = nil
@@ -180,25 +174,19 @@ LeftGroupBox = Tabs.Main:AddLeftGroupbox('Aimlock')
         if lockedHighlight then lockedHighlight:Destroy() end
     end
     
-    -- Function to activate orbiting around the target player
     local function ActivateOrbit(player)
         if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             targetPlayer = player
         end
     end
     
-    -- Function to deactivate orbiting
     local function DeactivateOrbit()
         targetPlayer = nil
     end
     
-    -- Function to handle automatic targeting for RageLock
     local function HandleRageLock()
-        -- Ensure RageLock only locks onto the target if it's valid
         if ragelock then
-            -- Check if targetPlayer is invalid or knocked
             if targetPlayer and IsPlayerKnockedOrGrabbed(targetPlayer) then
-                -- If the locked target is knocked or grabbed, unlock and search for the next target
                 cursorLocked = false
                 UnlockCursor()
                 DeactivateOrbit()
@@ -207,18 +195,17 @@ LeftGroupBox = Tabs.Main:AddLeftGroupbox('Aimlock')
                 if targetPlayer then
                     cursorLocked = true
                     LockCursorToHead()
-                    AddLockedHighlight(targetPlayer)  -- Add highlight to new target
+                    AddLockedHighlight(targetPlayer) 
                 end
                 return
             end
     
-            -- If no valid target is locked, search for a new one
             if not targetPlayer then
                 targetHead, targetPlayer = FindClosestPlayerHead()
                 if targetPlayer then
                     cursorLocked = true
                     LockCursorToHead()
-                    AddLockedHighlight(targetPlayer)  -- Add highlight to new target
+                    AddLockedHighlight(targetPlayer) 
                 end
             end
         end
